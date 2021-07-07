@@ -34,13 +34,16 @@ def mpg_prediction():
             if val < min_val or val > max_val:
                 errors.append(f'Value for {name}, should be between {min_val} and {max_val}')
         else:
+            # The feature name is unexpected 
             errors.append(f'Unexpected field {name}')
 
     for name in Expected:
         if name not in content:
+            # The feature name is missing from the content in request
             errors.append(f'Missing value: {name}')
 
     if len(errors) < 1:
+        # If we have zero errors that means we are in a good state to predict
         x= np.zeros((1,7))
         
         x[0,0] = content['cylinders']
@@ -57,6 +60,7 @@ def mpg_prediction():
     else:
         response = {'id': uuid.uuid4(), errors: errors}
 
+    # Return the appropriate response generated in one of the flows above.
     return jsonify(response)
 
 if __name__ == '__main__':
