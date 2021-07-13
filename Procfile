@@ -1,1 +1,1 @@
-web: gunicorn ImageRecognition:app
+web: gunicorn CarsMPG:app
