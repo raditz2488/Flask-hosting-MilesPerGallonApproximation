@@ -1,1 +1,1 @@
-web: gunicorn CarsMPG:app --preload
+web: gunicorn CarsMPG:app --log-file=-
