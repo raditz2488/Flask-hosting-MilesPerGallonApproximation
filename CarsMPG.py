@@ -1,6 +1,6 @@
 from tensorflow.keras.models import load_model
 import numpy as np
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import uuid
 
 app = Flask(__name__)
@@ -16,6 +16,10 @@ Expected = {
 "year":{"min":70,"max":82},
 "origin":{"min":1,"max":3}
 }
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('ImageML.html')
 
 @app.route('/api', methods=['POST'])
 def mpg_prediction():
@@ -57,11 +61,13 @@ def mpg_prediction():
         prediction = model.predict(x)
         mpg = float(prediction[0])
         response = {'id': uuid.uuid4(), 'mpg': mpg, 'errors': errors}
+        val = f'{mpg} mpg'
     else:
         response = {'id': uuid.uuid4(), errors: errors}
+        val = errors[0]
 
     # Return the appropriate response generated in one of the flows above.
-    return jsonify(response)
+    return render_template('ImageML.html', prediction=val)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
