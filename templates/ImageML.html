@@ -8,7 +8,7 @@
 <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">-->
 <!--<link rel="stylesheet" href="C:\Users\danie\Desktop\Flask UdemyKurs\static\css\style.css">-->
 </head>
 <body>
@@ -16,20 +16,35 @@
     <div class="row">
       <div class="col">
 
-        <h1>Upload an image</h1>
+        <h1>Enter the followin attributes for a car</h1>
         <hr>
 
         <form action="{{ url_for('mpg_prediction')}}" method="POST" enctype="multipart/form-data">
 
           <div class="form-group">
-            <label>Select image</label>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" name="image" id="image">
-              
-            </div>
+            <label for="cylinders">Cylinders:</label><br>
+            <input type="text" id="cylinders" name="cylinders"><br>
+
+            <label for="displacement">Displacement:</label><br>
+            <input type="text" id="displacement" name="displacement" ><br>
+
+            <label for="horsepower">Horsepower:</label><br>
+            <input type="text" id="horsepower" name="horsepower" ><br>
+
+            <label for="weight">Weight:</label><br>
+            <input type="text" id="weight" name="weight" ><br>
+
+            <label for="acceleration">Acceleration:</label><br>
+            <input type="text" id="acceleration" name="acceleration" ><br>
+
+            <label for="year">Year:</label><br>
+            <input type="text" id="year" name="year" ><br>
+
+            <label for="origin">Origin:</label><br>
+            <input type="text" id="origin" name="origin" ><br><br>
           </div>
 
-          <button type="submit" class="btn btn-primary">Upload</button>
+          <button type="submit" class="btn btn-primary">Predict mpg</button>
 
         </form>
 

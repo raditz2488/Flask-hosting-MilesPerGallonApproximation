@@ -24,8 +24,8 @@ def index():
 @app.route('/api', methods=['POST'])
 def mpg_prediction():
     errors = []
-
-    content = request.json
+    
+    content = request.form
 
     for name in content:
         if name in Expected:
@@ -33,7 +33,7 @@ def mpg_prediction():
             max_val = Expected[name]['max']
             min_val = Expected[name]['min']
             
-            val = content[name]
+            val = float(content[name])
 
             if val < min_val or val > max_val:
                 errors.append(f'Value for {name}, should be between {min_val} and {max_val}')
@@ -50,24 +50,25 @@ def mpg_prediction():
         # If we have zero errors that means we are in a good state to predict
         x= np.zeros((1,7))
         
-        x[0,0] = content['cylinders']
-        x[0,1] = content['displacement']
-        x[0,2] = content['horsepower']
-        x[0,3] = content['weight']
-        x[0,4] = content['acceleration']
-        x[0,5] = content['year']
-        x[0,6] = content['origin']
+        x[0,0] = int(content['cylinders'])
+        x[0,1] = float(content['displacement'])
+        x[0,2] = float(content['horsepower'])
+        x[0,3] = int(content['weight'])
+        x[0,4] = float(content['acceleration'])
+        x[0,5] = int(content['year'])
+        x[0,6] = int(content['origin'])
 
         prediction = model.predict(x)
-        mpg = float(prediction[0])
+        mpg = round(float(prediction[0]), 2)
         response = {'id': uuid.uuid4(), 'mpg': mpg, 'errors': errors}
         val = f'{mpg} mpg'
     else:
-        response = {'id': uuid.uuid4(), errors: errors}
+        response = {'id': uuid.uuid4(), 'errors': errors}
         val = errors[0]
 
     # Return the appropriate response generated in one of the flows above.
     return render_template('ImageML.html', prediction=val)
+    
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
